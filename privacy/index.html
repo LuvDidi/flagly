@@ -139,6 +139,21 @@
             document.getElementById('lang-' + lang).classList.add('active');
             document.getElementById('btn-' + lang).classList.add('active');
         }
+
+        // Pick the first supported language from the browser's preference list.
+        // Falls back to English when neither French nor Spanish is present.
+        (function detectAndApplyLang() {
+            var supported = ['fr', 'es', 'en'];
+            var preferred = navigator.languages || [navigator.language || 'en'];
+            for (var i = 0; i < preferred.length; i++) {
+                var code = preferred[i].toLowerCase().split('-')[0];
+                if (supported.indexOf(code) !== -1) {
+                    switchLang(code);
+                    return;
+                }
+            }
+            switchLang('en');
+        })();
     </script>
 </body>
 </html>
